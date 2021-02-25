@@ -1,0 +1,11 @@
+GET http://localhost:5000/posts/5f82561e99906946ec763749
+
+###
+
+POST http://localhost:5000/posts/
+
+{
+    "postText": "A post. texting from vscode",
+}
+
+###
