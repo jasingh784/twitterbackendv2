@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/posts');
+const verify = require('./verifyToken');
 
 //getting all posts
-router.get('/', async (req, res) => {               
+router.get('/', verify, async (req, res) => {               
     try {
         const foundPosts = await Post.find();
         //const resPosts = await foundPosts.json();
@@ -55,6 +56,7 @@ router.delete('/:id', getPostById, async (req, res) => {
     }
 })
 
+//MIDDLEWARE
 async function getPostById(req, res, next) {
     console.log("inside middleware")
     let foundPost
