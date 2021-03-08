@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../models/posts');
 const verify = require('./verifyToken');
-const User = require("../models/Users")
+const User = require("../models/users")
 
 //getting all posts
 router.get('/', verify, async (req, res) => {               
