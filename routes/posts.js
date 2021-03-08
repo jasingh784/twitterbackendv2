@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../models/posts');
 const verify = require('./verifyToken');
+const User = require("../models/Users")
 
 //getting all posts
 router.get('/', verify, async (req, res) => {               
@@ -22,11 +23,24 @@ router.get('/:id', getPostById, (req, res) => {
 })
 
 //creating one post
-router.post('/', async (req, res) => {
-    console.log(req.body)        
+router.post('/', verify, async (req, res) => {
+    // console.log(req.body)
+    // console.log(req.user)        
     try {
+        //first create the post and add it to db
         const addedPost = await Post.create(req.body);
+
+        //next find the user who is posting
+        const postingUser = await User.findById(req.user._id).exec();
+
+        //push the created post's id into the posting users post array. 
+        //data association
+        postingUser.posts.push(addedPost);
+        
+        //save
+        await postingUser.save()
         console.log('added new post to db ' + addedPost)
+        console.log(postingUser)
     } catch(error) {
         console.log('error adding post to db: ' + error);
     }
