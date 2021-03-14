@@ -61,9 +61,23 @@ router.put('/:id', getPostById, async (req, res) => {
 
 
 //deleting one post
-router.delete('/:id', getPostById, async (req, res) => {
+router.delete('/:id', verify, getPostById, async (req, res) => {
     try {
-        await res.foundPost.remove()
+        //next find the user who is deleteing.
+        //only logged in users can delete 
+        const loggedInUser = await User.findById(req.user._id).exec();
+
+        //find the index of the post in the users posts array
+        const indexOfPost = loggedInUser.posts.indexOf(req.params.id)
+        
+        //if that post exist in the logged in users posts array
+        //delete that post and remove that posts id from the users post array
+        if (indexOfPost !== -1) {
+            await res.foundPost.remove();
+            loggedInUser.posts.splice(indexOfPost, 1)
+            await loggedInUser.save()
+        }
+
         res.json({message: 'deleted post'})
     } catch (error) {
         res.status(500).json({message: error.message})
