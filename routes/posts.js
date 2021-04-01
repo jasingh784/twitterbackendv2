@@ -37,6 +37,7 @@ router.post('/', verify, async (req, res) => {
         //data association
         postingUser.posts.push(addedPost);
         addedPost.author = postingUser;
+        await addedPost.save()
         
         //save
         await postingUser.save()
