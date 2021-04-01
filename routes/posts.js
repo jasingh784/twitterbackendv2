@@ -36,6 +36,7 @@ router.post('/', verify, async (req, res) => {
         //push the created post's id into the posting users post array. 
         //data association
         postingUser.posts.push(addedPost);
+        addedPost.author = postingUser;
         
         //save
         await postingUser.save()
