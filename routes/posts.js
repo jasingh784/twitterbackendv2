@@ -47,6 +47,7 @@ router.post('/', verify, async (req, res) => {
     
 })
 
+
 //updating one post    put vs patch
 router.put('/:id', getPostById, async (req, res) => {
     console.log(res.foundPost)
