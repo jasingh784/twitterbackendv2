@@ -4,6 +4,7 @@ const { registerValidation, loginValidation }= require('../validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+
 router.post('/register', async (req, res) => {
 
     //VALIDATE THE USER BEFORE ADDING A USER
@@ -78,6 +79,6 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         return res.status(500).json({message: error.message})
     }
-    res.send(foundUser.username);
+    res.json({username: foundUser.username});
 })
 module.exports = router;
