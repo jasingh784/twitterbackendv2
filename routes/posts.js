@@ -36,16 +36,21 @@ router.post('/', verify, async (req, res) => {
         //push the created post's id into the posting users post array. 
         //data association
         postingUser.posts.push(addedPost);
+        addedPost.author = postingUser;
+        await addedPost.save()
         
         //save
         await postingUser.save()
         console.log('added new post to db ' + addedPost)
         console.log(postingUser)
+        res.send(true)
     } catch(error) {
         console.log('error adding post to db: ' + error);
+        res.send(false)
     }
     
 })
+
 
 //updating one post    put vs patch
 router.put('/:id', getPostById, async (req, res) => {

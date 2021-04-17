@@ -5,6 +5,7 @@ const postSchema = new mongoose.Schema({
         required: true,
         type: String,
     },
+    author: {type: mongoose.Schema.ObjectId, ref: "User"},
 },
     {
         timestamps: true,
