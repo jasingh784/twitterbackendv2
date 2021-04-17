@@ -65,4 +65,19 @@ router.post('/login', async (req, res) => {
     res.json(token);
 
 })
+
+router.get('/:id', async (req, res) => {
+
+    let foundUser
+    try {
+        foundUser = await User.findById(req.params.id).exec();
+        if (foundUser == null) {
+            return res.status(404).json({message: 'Cannot find user'})
+        }
+        console.log(foundUser)
+    } catch (error) {
+        return res.status(500).json({message: error.message})
+    }
+    res.send(foundUser.username);
+})
 module.exports = router;
