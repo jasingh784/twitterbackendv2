@@ -43,10 +43,10 @@ router.post('/', verify, async (req, res) => {
         await postingUser.save()
         console.log('added new post to db ' + addedPost)
         console.log(postingUser)
-        res.send(true)
+        res.json({postId: addedPost._id})
     } catch(error) {
         console.log('error adding post to db: ' + error);
-        res.send(false)
+        res.json({postId: 0})
     }
     
 })
