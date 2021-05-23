@@ -19,6 +19,7 @@ router.get('/', verify, async (req, res) => {
 
 //getting one post 
 router.get('/:id', getPostById, (req, res) => {
+    console.log(req)
     res.json(res.foundPost)
 })
 
@@ -92,6 +93,7 @@ router.delete('/:id', verify, getPostById, async (req, res) => {
 //MIDDLEWARE
 async function getPostById(req, res, next) {
     console.log("inside middleware")
+    console.log(req)
     let foundPost
     try {
         foundPost = await Post.findById(req.params.id).exec();

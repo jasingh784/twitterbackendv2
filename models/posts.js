@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
     postText: {
-        required: true,
+        required: false,
         type: String,
     },
     author: {type: mongoose.Schema.ObjectId, ref: "User"},
+    mediaUrl: {type: String}
 },
     {
         timestamps: true,

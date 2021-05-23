@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const { extend } = require('joi');
 
 require('dotenv').config();
 
@@ -17,6 +19,7 @@ mongoose.connect(process.env.ATLAS_URI, {
 
 //MIDDLEWARE
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 //ROUTE MIDDLEWARE
 app.use('/api/posts', require('./routes/posts'));
