@@ -90,6 +90,43 @@ router.delete('/:id', verify, getPostById, async (req, res) => {
     }
 })
 
+//adding reply to post
+router.post('/:id/reply', verify, async (req, res) => {
+    // console.log(req.body)
+    // console.log(req.user)        
+    try {
+        //first create the post and add it to db
+        const addedPost = await Post.create(req.body);
+
+        //next find the user who is posting
+        const postingUser = await User.findById(req.user._id).exec();
+
+        //find the post that is being replied to 
+        const topPost = await Post.findById(req.params.id).exec();
+
+        //push the created post's id into the top post replies array
+        topPost.replies.push(addedPost);
+
+        await topPost.save();
+
+        //push the created post's id into the posting users post array. 
+        //data association
+        postingUser.posts.push(addedPost);
+        addedPost.author = postingUser;
+        await addedPost.save()
+        
+        //save
+        await postingUser.save()
+        console.log('added new post to db ' + addedPost)
+        console.log(postingUser)
+        res.json({postId: addedPost._id})
+    } catch(error) {
+        console.log('error adding post to db: ' + error);
+        res.json({postId: 0})
+    }
+    
+})
+
 //MIDDLEWARE
 async function getPostById(req, res, next) {
     console.log("inside middleware")

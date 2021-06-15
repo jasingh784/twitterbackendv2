@@ -6,7 +6,13 @@ const postSchema = new mongoose.Schema({
         type: String,
     },
     author: {type: mongoose.Schema.ObjectId, ref: "User"},
-    mediaUrl: {type: String}
+    mediaUrl: {type: String},
+    replies: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Post"
+        }
+    ]
 },
     {
         timestamps: true,
